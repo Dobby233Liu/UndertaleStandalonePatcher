@@ -22,6 +22,8 @@ namespace UTCSXPatcherGUI
 
         public ScriptSandbox _hack = new ScriptSandbox(null, "", false);
 
+        public FileStream fsin = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -68,7 +70,8 @@ namespace UTCSXPatcherGUI
             label1.Text = boxWorkingMsg;
             try
             {
-                Data = UndertaleIO.Read(new FileStream(inputFileTB.Text, FileMode.Open));
+                fsin = new FileStream(inputFileTB.Text, FileMode.Open);
+                Data = UndertaleIO.Read(fsin);
                 while (null == Data) { Application.DoEvents(); }
             }
             catch (Exception es)
@@ -82,7 +85,7 @@ namespace UTCSXPatcherGUI
         {
             label1.Text = boxWorkingMsg;
             try {
-                UndertaleIO.Write(new FileStream(outputFileTB.Text, FileMode.Open), Data);
+                UndertaleIO.Write(fsin, Data);
             }
             catch (Exception es) {
                 label1.Text = es.ToString();
